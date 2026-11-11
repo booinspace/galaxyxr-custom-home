@@ -75,6 +75,8 @@ The first build creates `build/debug.keystore` (alias `blackhome`, password `and
 
 The downloadable v1.0.0 APK is the original signed build installed during development, not a newly signed replacement. Fresh clones generate a different key and will generally produce different APK bytes. If Android reports `INSTALL_FAILED_UPDATE_INCOMPATIBLE` when switching from the release to your own build, uninstall `boo.puppy.blackhome` first, then install your build. Do not publish your private keystore. The build recipe is repeatable with the same stock input and tools; byte-for-byte reproducibility of signed APKs is not claimed.
 
+The original signed APK, checksum and release notes are preserved in `prebuilt/`. Pushing a `v*` tag runs `.github/workflows/release.yml`, verifies the checksum and generated assets, and uploads the APK and checksum to GitHub Releases using the repository's Actions token. This publishes the preserved prebuilt; it does not rebuild the APK or require a signing key on GitHub. Before publishing another version, update the manifest version, prebuilt APK, checksum and notes together.
+
 ## Package layout
 
 ```text
