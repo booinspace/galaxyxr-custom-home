@@ -1,5 +1,11 @@
 name: Publish Black Home release
 on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing version tag to release
+        required: true
+        default: v1.0.0
   push:
     tags: ['v*']
 permissions:
@@ -18,8 +24,9 @@ jobs:
       - name: Publish APK and checksum
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
         run: >-
-          gh release create "$GITHUB_REF_NAME"
+          gh release create "$RELEASE_TAG"
           prebuilt/black-home.apk prebuilt/SHA256SUMS
-          --verify-tag --title "Black Home $GITHUB_REF_NAME — Galaxy XR"
+          --verify-tag --title "Black Home $RELEASE_TAG — Galaxy XR"
           --notes-file prebuilt/RELEASE.md
